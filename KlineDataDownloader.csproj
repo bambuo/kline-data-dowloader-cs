@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>KlineDataDownloader</RootNamespace>
+  </PropertyGroup>
+
+  <!-- 前端源码目录不参与构建产物 -->
+  <ItemGroup>
+    <None Remove="ui\**" />
+    <Content Remove="ui\**" />
+  </ItemGroup>
+
+  <!-- 若存在 ui/dist（bun run build 产物），构建时同步到 wwwroot，等价 Java 版 Maven 的资源嵌入 -->
+  <Target Name="SyncUiDist" AfterTargets="Build" Condition="Exists('ui/dist/index.html')">
+    <ItemGroup>
+      <UiDistFile Include="ui/dist/**/*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(UiDistFile)"
+          DestinationFiles="@(UiDistFile->'$(MSBuildProjectDirectory)/wwwroot/%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+</Project>

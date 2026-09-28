@@ -1,0 +1,8 @@
+bin/
+obj/
+kline-data/
+*.log
+*.user
+.DS_Store
+.idea/
+.zcode/
