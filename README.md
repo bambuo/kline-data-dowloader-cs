@@ -14,6 +14,8 @@ dotnet run            # 监听 http://0.0.0.0:8080
 
 打开 http://localhost:8080 即为前端页面。数据写入 `./kline-data/`（相对进程工作目录）。
 
+首次 clone 后如需页面：`cd ui && bun install && bun run build`，再 `dotnet run`（构建时自动同步 `ui/dist` → `wwwroot/`）；不做前端构建时 API 仍可直接使用。
+
 ## 配置（appsettings.json）
 
 | 键 | 默认值 | 说明 |
@@ -43,7 +45,7 @@ timestamp_ms,open,high,low,close,volume
 
 ## 前端开发
 
-前端源码在 `ui/`（Vue 3 + Arco Design，bun + vite），构建产物已提交在 `wwwroot/`：
+前端源码在 `ui/`（Vue 3 + Arco Design，bun + vite），构建产物不入库（`ui/dist` 与 `wwwroot/` 均被忽略，`wwwroot/` 由 dotnet 构建时自动从 `ui/dist` 同步）：
 
 ```bash
 cd ui && bun install

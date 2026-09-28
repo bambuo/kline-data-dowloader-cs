@@ -1,6 +1,7 @@
 bin/
 obj/
 kline-data/
+wwwroot/
 *.log
 *.user
 .DS_Store
