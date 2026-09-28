@@ -20,7 +20,7 @@ public sealed class KlineDownloader(
     IOptions<KlineDataOptions> options,
     ILogger<KlineDownloader> logger)
 {
-    // 时间戳归一化阈值与有效窗口（毫秒），与 Java 版逐字对应
+    // 时间戳归一化阈值与有效窗口（毫秒）
     private const long TimestampSplit = 100_000_000_000_000L;
     private const long MinTimestampMillis = 946_684_800_000L;    // 2000-01-01
     private const long MaxTimestampMillis = 4_102_444_800_000L;  // 2100-01-01
@@ -71,7 +71,7 @@ public sealed class KlineDownloader(
             months.Add(ym);
         }
 
-        // 并行下载所有月份；结果与错误按月份下标归集，保证合并顺序与 Java 版一致
+        // 并行下载所有月份；结果与错误按月份下标归集，保证合并与报错顺序跟月份顺序一致
         var monthData = new ConcurrentDictionary<int, List<Kline>>();
         var monthErrors = new ConcurrentDictionary<int, string>();
         try
@@ -132,7 +132,7 @@ public sealed class KlineDownloader(
             return new DownloadResult(0, 0, null, errors.Count == 0 ? ["No data downloaded"] : errors);
         }
 
-        // 按时间排序（OrderBy 为稳定排序，对齐 Java TimSort）+ 相邻去重（保留首条）
+        // 按时间稳定排序（须用 OrderBy，List.Sort 不稳定）后相邻去重，重复时间戳保留首条
         var deduped = new List<Kline>(allKlines.Count);
         foreach (var k in allKlines.OrderBy(k => k.OpenTime))
         {
@@ -142,7 +142,7 @@ public sealed class KlineDownloader(
             }
         }
 
-        // 按天分组（SortedDictionary 对齐 Java TreeMap 的键序）并覆写日文件
+        // 按天分组（按日期键序）并覆写日文件
         var tfDir = Path.Combine(targetDir, tf.ToBinanceCode());
         try
         {
@@ -259,7 +259,7 @@ public sealed class KlineDownloader(
             }
             catch (Exception e) when (e is FormatException or OverflowException)
             {
-                // 与 Java 版一致：坏行静默丢弃
+                // 坏行静默丢弃
             }
         }
         return result;

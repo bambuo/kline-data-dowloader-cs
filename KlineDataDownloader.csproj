@@ -13,7 +13,7 @@
     <Content Remove="ui\**" />
   </ItemGroup>
 
-  <!-- 若存在 ui/dist（bun run build 产物），构建时同步到 wwwroot，等价 Java 版 Maven 的资源嵌入 -->
+  <!-- 若存在 ui/dist（bun run build 产物），构建时同步到 wwwroot -->
   <Target Name="SyncUiDist" AfterTargets="Build" Condition="Exists('ui/dist/index.html')">
     <ItemGroup>
       <UiDistFile Include="ui/dist/**/*" />

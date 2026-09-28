@@ -12,7 +12,7 @@ builder.Services.Configure<KlineDataOptions>(
 builder.Services.AddHttpClient<BinanceArchiveClient>(http =>
 {
     http.BaseAddress = new Uri("https://data.binance.vision");
-    // 与 Java 版 RestClient 一致：不限制请求超时
+    // 不限制请求超时：月度归档 zip 体积较大，避免被 HttpClient 默认 100s 超时中断
     http.Timeout = Timeout.InfiniteTimeSpan;
 });
 builder.Services.AddSingleton<KlineDownloader>();

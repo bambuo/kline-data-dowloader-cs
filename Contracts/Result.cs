@@ -2,9 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace KlineDataDownloader.Contracts;
 
-/// <summary>
-/// 统一响应封装：code=0 成功；null 字段不序列化（对应 Java 版 @JsonInclude(NON_NULL)）。
-/// </summary>
+/// <summary>统一响应封装：code=0 成功；null 字段不序列化。</summary>
 public sealed record Result<T>(
     int Code,
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Message,

@@ -59,7 +59,7 @@ public sealed class KlineStore(string baseDir)
             }
             catch (Exception e) when (e is FormatException or OverflowException)
             {
-                // 与 Java 版一致：坏行静默丢弃
+                // 坏行静默丢弃
             }
         }
         return result;

@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace KlineDataDownloader.Domain;
 
-/// <summary>年月值对象（对应 java.time.YearMonth）。</summary>
+/// <summary>年月值对象（仅年 + 月，不含日与时区信息）。</summary>
 public readonly record struct YearMonth(int Year, int Month) : IComparable<YearMonth>
 {
     /// <summary>按 "yyyy-MM" 严格解析，失败抛 FormatException。</summary>

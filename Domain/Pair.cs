@@ -1,6 +1,6 @@
 namespace KlineDataDownloader.Domain;
 
-/// <summary>交易对值对象，不可变。构造时统一转为大写（与 Java 版一致）。</summary>
+/// <summary>交易对值对象，不可变。构造时统一转为大写。</summary>
 public readonly record struct Pair
 {
     public Pair(string baseAsset, string quoteAsset)
